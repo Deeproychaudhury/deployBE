@@ -1,0 +1,100 @@
+<!-- templates/payment.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'logo1.png' %}" type="image/png">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="text-center">Complete Your Payment <br><small class="text-center">Your order is
+                                {{order_id}}</small></h1>
+
+                    </div>
+                    <div class="card-body">
+                        <form action="/create-checkout-session" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" id="checkout-button" class="btn btn-primary btn-block">Pay
+                                Now💸</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Payment Safety Guidelines</h1>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Attention!⚠</strong> Follow these guidelines to ensure safe transactions when using Razorpay or any
+            online payment gateway.
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Basic Details</h3>
+                <p class="card-text">
+                    Razorpay is a secure and reliable payment gateway that allows you to make payments online
+                    conveniently.
+                    While using Razorpay, it's essential to ensure that you follow certain guidelines to keep your
+                    transactions safe and secure.
+                </p>
+
+                <h3 class="card-title">Warnings and Precautions</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>1. Verify the Website:</strong> Always ensure that you are making payments on a
+                        legitimate
+                        and secure website. Look for HTTPS and a padlock symbol in the address bar.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>2. Do Not Share Sensitive Information:</strong> Never share your OTP, card details, or
+                        Razorpay account credentials with anyone.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>3. Use Strong Passwords:</strong> Use strong and unique passwords for your Razorpay
+                        account
+                        and other related accounts.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>4. Enable Two-Factor Authentication:</strong> Enable two-factor authentication (2FA) for
+                        an
+                        extra layer of security on your Razorpay account.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>5. Monitor Your Transactions:</strong> Regularly check your bank statements and Razorpay
+                        account for any unauthorized transactions.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>6. Be Wary of Phishing Scams:</strong> Do not click on suspicious links or respond to
+                        emails
+                        asking for your financial details.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>7. Use Secure Networks:</strong> Avoid making payments over public Wi-Fi networks. Use a
+                        secure and private internet connection.
+                    </li>
+                    <li class="list-group-item">
+                        <strong> REMEMBER TIME IS MONEY</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

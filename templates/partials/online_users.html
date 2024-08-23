@@ -1,0 +1,42 @@
+<span id="online-inchat" class="position-absolute top-0  end-0 translate-middle-x">
+    {% if online_in_chats %}
+    <span class="green-circle"></span>
+    {% endif %}
+</span>
+
+
+<li id="chats-list" class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa-brands fa-rocketchat"></i>
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{% url 'chat'%}">
+            {% if public_chat_users %}
+            <span class="green-circle"></span>
+            {% endif %}Community</a>
+        {% for chatroom in user.chat_groups.all %}
+        {% if chatroom.is_private %}
+        {% for membr in chatroom.members.all %}
+        {% if membr != user %}
+        <a class="dropdown-item" href="{% url 'chatroom' chatroom.groupname %}">
+            {% if chatroom.users_online.all and user not in chatroom.users_online.all or chatroom.users_online.count > 1 %}
+            <span class="green-circle"></span>
+            {% endif %}
+            {{membr.username}}</a>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="{% url 'new-groupchat' %}">Create GroupChat<i class="fa-solid fa-users-line"></i></a>
+        {% for chatroom in user.chat_groups.all %}
+        {% if chatroom.groupchat_name %}
+        <a class="dropdown-item" href="{% url 'chatroom' chatroom.groupname %}">
+            {% if chatroom.users_online.all and user not in chatroom.users_online.all or chatroom.users_online.count > 1 %}
+            <span class="green-circle"></span>
+            {% endif %}
+            {{chatroom.groupchat_name}}</a>
+        {% endif %}
+        {% endfor %}
+    </div>
+</li>

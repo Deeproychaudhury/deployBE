@@ -1,0 +1,347 @@
+ function showTypingIndicator() {
+            const textInput = document.getElementById('textInput');
+            const typingIndicator = document.getElementById('typing-indicator');
+
+            if (textInput.value.length > 0) {
+                typingIndicator.style.display = 'flex';
+            } else {
+                typingIndicator.style.display = 'none';
+            }
+        }
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.style.display = 'none';
+        }
+
+.typing-indicator {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            display: none;
+        }
+
+        .typing-indicator div {
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background-color: #4d4c4c;
+            border-radius: 50%;
+            animation: typing 1s infinite ease-in-out;
+        }
+
+        .typing-indicator div:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator div:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+ws-send _="on htmx:wsAfterSend reset()  me then call hideTypingIndicator()">
+
+# HTML SECTION
+
+<form method="post" action="/booking">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col">
+    <label>Event Owner Name</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Please provide the name of the event owner." name="name">    
+    </div>
+    
+    <div class="col">
+      <label>Contact </label>
+    <input type="number" name="phone" class="form-control" step="0" placeholder="Phone Number">
+  
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label>Number of Seats</label>
+        <select class="form-control" id="exampleFormControlSelect1" name="select">
+          <option>2</option>
+          <option>4</option>
+          <option>10</option>
+          <option>20</option>
+          <option>30+(buffet)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputDate">Date</label>
+      <input type="text" class="form-control" id="from-datepicker" name="date">
+    </div>
+    <div class="col">
+      <label for="inputDate">email</label>
+           <input type="email" class="form-control" id="email" name="email">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label>Occasion Label</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descr" placeholder="From weddings to corporate events, our team creates custom dining experiences to suit your needs."></textarea>
+  </div>
+  <br>
+  <button type="submit" class="main-btn">Book Hall</button>
+</form>
+
+
+# JS PART 
+<script> 
+      $( document ).ready(function() {     
+      $("#from-datepicker").datepicker({          
+      format: 'yyyy-mm-dd'  //can also use format: 'dd-mm-yyyy'     
+      });      
+      });  
+      </script> 
+
+
+
+
+
+
+    <footer id="footer">
+        <div class="footer py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a class="footer-link" href="/signin">Register</a>
+                        <a class="footer-link" href="#">Forum</a>
+                        <a class="footer-link" href="#">Affiliate</a>
+                        <a class="footer-link" href="#">FAQ</a>
+                        <div class="footer-social pt-4 text-center">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-dribbble"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="footer-copy">
+                            <div class="copy-right text-center pt-5">
+                                <p class="text-light">© 2023.Indo Bites. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+     <style type="text/css">
+        body {
+            margin-top: 20px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.23), rgba(0, 0, 0, 0.153)), url("/static/bg/bg-4.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100%;
+            font-family: papyrus;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0.625rem;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--white-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+        }
+
+        /*
+==========================================
+   Custom CSS Design
+==========================================
+*/
+        :root {
+            --primary-color: #A82C48;
+            --secondry-color: #43121d;
+            --third-color: #f98169;
+            --white-color: #fffffffa;
+            --text-color: #0e0707;
+            --text-gray: #999;
+            --black-color: #000;
+            --primary-font: 'Roboto', sans-serif;
+            --secondry-font: 'Quicksand', sans-serif;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 3rem;
+            color: var(--secondry-color);
+        }
+
+        h2 {
+            font-weight: 700;
+            font-size: 2.25rem;
+            text-transform: capitalize;
+            font-family: var(--secondry-font);
+            color: var(--secondry-color);
+            line-height: 3rem;
+
+        }
+
+        a:hover {
+            color: var(--primary-color) !important;
+        }
+
+        h4 {
+            color: var(--secondry-color);
+            font-family: var(--secondry-font);
+            text-transform: capitalize;
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-btn {
+            display: inline-block;
+            padding: 0.625rem 1.875rem;
+            line-height: 1.5625rem;
+            background-color: var(--primary-color);
+            border: 0.1875rem solid var(--primary-color);
+            color: var(--white-color);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            box-shadow: 0px 2px 10px -1px rgb(0 0 0 / 19%);
+            -webkit-transition: all .4s ease-out 0s;
+            -o-transition: all .4s ease-out 0s;
+            -moz-transition: all .4s ease-out 0s;
+            transition: all .4s ease-out 0s;
+        }
+
+        .main-btn:hover {
+            background-color: rgba(224, 208, 208, 0.488);
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        label {
+            color: #A82C48
+        }
+
+        button {
+            background-color: #A82C48;
+            color: azure;
+        }
+
+        .footer {
+            background: #A82C48;
+        }
+
+        .footer .footer-link {
+            font-size: 1rem;
+            color: #fffffffa;
+            padding: 0 1.875rem;
+        }
+
+        .footer .footer-link:hover {
+            color: #fffffffa !important;
+        }
+
+        .footer a i {
+            font-size: 1.5rem;
+            color: #fffffffa;
+            padding: 0 1rem;
+        }
+    </style>
+
+
+
+
+
+    @media (max-width: 576px) {
+      .navbar-brand img {
+        max-height: 50px;
+      }
+
+      .fa {
+        font-size: 1em;
+      }
+    }
+
+
+
+      /* For medium devices (max-width: 768px) */
+      @media (max-width: 768px) {
+        .story-section {
+          padding: 40px;
+          background-position: center;
+        }
+
+        .story-section h2 {
+          font-size: 1.75rem;
+        }
+
+        .form-control-lg {
+          font-size: 1rem;
+        }
+
+        .main-btn {
+          font-size: 0.9rem;
+        }
+
+        .footer-link {
+          font-size: 0.85rem;
+        }
+      }
+
+      /* For large devices (max-width: 992px) */
+      @media (max-width: 992px) {
+        .story-section {
+          padding: 50px;
+        }
+
+        .story-section h2 {
+          font-size: 2rem;
+        }
+      }
+
+      /* For extra large devices (max-width: 1200px) */
+      @media (max-width: 1200px) {
+        .story-section {
+          padding: 60px;
+        }
+
+        .story-section h2 {
+          font-size: 2.25rem;
+        }
+      }
+
+
+
+<form action="/add_to_cart" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="obj_id" value="{{obj.id}}">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm me-2" style="max-width: 150px;">
+                                        <button class="main-btn btn btn-danger btn-sm" type="submit">Order Now</button>
+                                    </div>
+                                </form>

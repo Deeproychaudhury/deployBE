@@ -1,0 +1,82 @@
+{% if message.author == user %}
+<div class="d-flex flex-column mb-3 user1bubble">
+    <div class="d-flex align-items-center">
+        <strong>You:</strong>
+        <small class="text-muted">{{message.created}}</small>
+        <form class="float-end" action="{% url 'deletechat' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="message_id" value="{{message.id}}">
+            <button type="submit" class="deleteform" style="border: none; box-shadow: none;background-color: rgba(255, 228, 196, 0) ;"><i class="fa-solid fa-trash"></i></button>
+        </form>
+    </div>
+    {% if message.body %}
+    <p>{{message.body}}</p>
+    {% elif message.file %}
+    <div class="d-flex">
+        {% if message.file.name|lower|slice:"-4:" == ".mp4" or message.file.name|lower|slice:"-5:" == ".webm" or message.file.name|lower|slice:"-4:" == ".ogg" %}
+        <video controls class="me-2 mt-2" style="width: 15rem; height: auto;">
+            <source src="{{message.file.url}}" type="video/mp4">
+            <source src="{{message.file.url}}" type="video/webm">
+            <source src="{{message.file.url}}" type="video/ogg">
+            Your browser does not support the video tag.
+        </video>
+        {% elif message.file.name|lower|slice:"-4:" == ".mp3" or message.file.name|lower|slice:"-4:" == ".wav" or message.file.name|lower|slice:"-4:" == ".ogg" %}
+        <audio controls class="me-2 mt-2" style="width: 15rem; height: auto;">
+            <source src="{{message.file.url}}" type="audio/mp3">
+            <source src="{{message.file.url}}" type="audio/wav">
+            <source src="{{message.file.url}}" type="audio/ogg">
+            Your browser does not support the audio tag.
+        </audio>
+        {% elif message.is_image %}
+        <img src="{{message.file.url}}" alt="{{message.file.name}}" class="img-fluid me-2 mt-2" style="width: 15rem; height: auto;">
+        {% else %}
+        <small><i class="fa-regular fa-file"></i> {{message.file.name}}</small>
+
+        {% endif %}
+        <a href="{{message.file.url}}" class="ms-auto mt-2" download><i class="fa-solid fa-download"></i></a>
+    </div>
+    {% endif %}
+</div>
+{% else %}
+<div class="d-flex flex-column mb-3 user2bubble">
+    <div class="d-flex align-items-center">
+        <a href="{% url 'prof' message.author.username %}"><img src="{{message.author.profile.image.url}}" class="rounded-circle" alt="User 2"></a>
+
+        <strong>{{message.author.username}}
+            {% if message.author.is_superuser %}
+            <small class="text-muted">Admin</small>
+            {% elif message.author.is_staff and not message.author.is_superuser %}
+            <small class="text-muted">Staff</small>
+            {% else %}
+            {% endif %}: </strong>
+        <small class="text-muted">{{message.created}}</small>
+    </div>
+    {% if message.body %}
+    <p>{{message.body}}</p>
+    {% elif message.file %}
+    <div class="d-flex">
+        {% if message.file.name|lower|slice:"-4:" == ".mp4" or message.file.name|lower|slice:"-5:" == ".webm" or message.file.name|lower|slice:"-4:" == ".ogg" %}
+        <video controls class="me-2 mt-2" style="width: 15rem; height: auto;">
+            <source src="{{message.file.url}}" type="video/mp4">
+            <source src="{{message.file.url}}" type="video/webm">
+            <source src="{{message.file.url}}" type="video/ogg">
+            Your browser does not support the video tag.
+        </video>
+        {% elif message.file.name|lower|slice:"-4:" == ".mp3" or message.file.name|lower|slice:"-4:" == ".wav" or message.file.name|lower|slice:"-4:" == ".ogg" %}
+        <audio controls class="me-2 mt-2" style="width: 15rem; height: auto;">
+            <source src="{{message.file.url}}" type="audio/mp3">
+            <source src="{{message.file.url}}" type="audio/wav">
+            <source src="{{message.file.url}}" type="audio/ogg">
+            Your browser does not support the audio tag.
+        </audio>
+        {% elif message.is_image %}
+        <img src="{{message.file.url}}" alt="{{message.file.name}}" class="img-fluid me-2 mt-2" style="width: 15rem; height: auto;">
+        {% else %}
+        <small><i class="fa-solid fa-file"></i> {{message.file.name}}</small>
+
+        {% endif %}
+        <a href="{{message.file.url}}" class="ms-auto mt-2" download><i class="fa-solid fa-download"></i></a>
+    </div>
+    {% endif %}
+</div>
+{% endif %}

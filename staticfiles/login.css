@@ -1,0 +1,6 @@
+.lodiv{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.23),rgba(0, 0, 0, 0.153)), url("login/login-1.jpg");
+    background-repeat: no-repeat;
+    background-size:cover ; 
+    height:100%;
+}

@@ -1,0 +1,100 @@
+{% load mathfilters %}
+<span id="online-count" hx-swap-oob="outerHTML" class="text-center ">{{online_count|add:1}}
+    <style>
+        @keyframes zoomFadeIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        #online-count {
+            color: #4bd679;
+            /* Emerald green */
+            animation: zoomFadeIn 1s ease-in-out;
+        }
+    </style>
+</span>
+
+{% if online_count %}
+<small id="online-h3" style="color: #38d357;"> online
+    <style>
+        @keyframes zoomFadeIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        #online-h3 {
+            font-size: 0.75 rem;
+            /* Emerald green */
+            animation: zoomFadeIn 1s ease-in-out;
+        }
+    </style>
+</small>
+{% else %}
+<small id="online-h3" style="color: #4d524e;"> offline
+    <style>
+        @keyframes zoomFadeIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        #online-h3 {
+            font-size: 0.75 rem;
+            /* Emerald green */
+            animation: zoomFadeIn 1s ease-in-out;
+        }
+    </style>
+</small>
+{% endif %}
+
+<div id="groupchat_members" class=" dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa-solid fa-user-group"></i>
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        {% for members in chat_group.members.all%}
+        <a class="dropdown-item" style="text-decoration: none; color: black;" href="{% url 'prof' members.username %}">
+            {% if members in chat_group.users_online.all and members != user %}
+            <span class="green-circle"></span>
+            {% else %}
+            <span class="grey-circle"></span>
+            {% endif %}
+            {{members.username|slice:":10"}}</a>
+        {% endfor%}
+    </div>
+</div>

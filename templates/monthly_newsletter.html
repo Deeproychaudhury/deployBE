@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'logo1.png' %}" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 style="color: #A82C48;">Welcome to Indo Bites Monthly Newsletter!</h2>
+                <p>Hi, {{ name }}! We hope you're having a great month.</p>
+                <p>We're excited to share some of our special offers with you!</p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- Special Offer 1 -->
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="https://cdni.pornpics.de/1280/7/584/65640142/65640142_012_e126.jpg" class="card-img-top" alt="Special Offer 1">
+                    <div class="card-body">
+                        <h5 class="card-title">20% Off on All Appetizers!</h5>
+                        <p class="card-text">Enjoy a 20% discount on all appetizers throughout this month. Don't miss out on our delicious starters!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special Offer 2 -->
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="https://cdni.pornpics.de/1280/7/585/71080882/71080882_001_826e.jpg" class="card-img-top" alt="Special Offer 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Buy 1 Get 1 Free Pizza!</h5>
+                        <p class="card-text">For a limited time, buy any pizza and get another one absolutely free. Perfect for sharing!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p>Thank you for being a part of the Indo Bites family. We look forward to serving you soon!</p>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="footer-copy">
+                            <div class="copy-right text-center pt-5 pb-3">
+                                <p class="text-light">© 2023. Indo Bites. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

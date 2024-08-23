@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Indo Bites | Cart</title>
+    <!-- BOotstrap css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Icon -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <style>
+        :root {
+            --primary-color: #A82C48;
+            --secondry-color: #43121d;
+            --third-color: #f98169;
+            --white-color: #fffffffa;
+            --text-color: #0e0707;
+            --text-gray: #999;
+            --black-color: #000;
+            --primary-font: 'Roboto', sans-serif;
+            --secondry-font: 'Quicksand', sans-serif;
+        }
+
+        body {
+            margin-top: 20px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.23), rgba(0, 0, 0, 0.153)), url("/static/bg/bg-4.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+            background-attachment: fixed;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0.625rem;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--white-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert" style="position: relative; padding-right: 3rem;">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="position: absolute; top: 50%; right: 0.5rem; transform: translateY(-50%); border: none; background: none; padding: 0; font-size: 1.25rem;">❌</button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div style="width:80%; height:80%; background-color: rgb(233, 243, 252); margin:auto; ">
+        <section class="pt-5 pb-5">
+            <div class="container">
+                <div class="row w-100">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <a href="/"><img class="mb-4" src="{% static 'logo.png' %}" alt=" bootstrap" height="107"></a>
+
+
+                        <p class="mb-5 text-center">
+                        <h1>Dear {{value}}</h1>
+                        <h3> <i class="text-info font-weight-bold">{{count}}</i> items in your cart{{count|pluralize}}
+                            </p>
+                        </h3>
+                        <hr>
+                        {% if orders %}
+                        <table id="shoppingCart" class="table table-condensed table-responsive">
+                            <thead>
+                                <tr>
+                                    <th style="width:60%">Product</th>
+                                    <th style="width:12%">Price</th>
+                                    <th style="width:10%">Quantity</th>
+                                    <th style="width:16%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td data-th="Product">
+                                        <div class="row">
+                                            <div class="col-md-3 text-left">
+                                                <img src="{{order.product.image.url}}" alt="Product image" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                            </div>
+                                            <div class="col-md-9 text-left mt-sm-2">
+                                                <h4>{{order.product.product_name}}</h4>
+                                                <p class="font-weight-light">Ordered on: {{ order.created_on }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-th="Price">₹{{order.price}}</td>
+                                    <form action='cart' method="POST">
+                                        {% csrf_token %}
+                                        <td data-th="Quantity">
+                                            <input type="hidden" name="order_id" value="{{order.id}}">
+                                            <input type="hidden" name="action" value="update">
+                                            <input type="number" name="quantity" class="form-control form-control-lg text-center" value="{{order.quantity}}" onchange="this.form.submit();">
+                                        </td>
+                                    </form>
+                                    <form action="cart" method="POST">
+                                        {% csrf_token %}
+                                        <td class="actions" data-th="">
+                                            <input type="hidden" name="order_id" value="{{order.id}}">
+                                            <input type="hidden" name="action" value="delete">
+                                            <div class="text-right">
+                                                <button class="btn btn-white border-secondary bg-white btn-md mb-2" type="submit">
+                                                    <ion-icon name="trash-outline"></ion-icon>
+                                                </button>
+                                            </div>
+
+                                        </td>
+                                    </form>
+                                </tr>
+                                {% empty %}
+                                <h3>Your cart is empty</h3>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="float-right text-right">
+                            <h4>Subtotal:</h4>
+                            <h1>₹{{sum}}</h1>
+                        </div>
+                        {% else %}
+                        <h3>Your cart is empty</h3>
+                        <div class="container mt-5 mb-5">
+                            <div class="alert alert-warning" role="alert">
+                                <h4 class="alert-heading">No items in your Cart</h4>
+                                <p>Wow Such Empty</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                <p>SHIPPING ADDRESS:<strong>{{user.profile.address}}</strong>
+                    ,State:{{user.profile.state}}</p>
+                <small>Please check all details before Checkout. IndoBitesⓒ shall not take any responibility</small>
+
+                <hr>
+                <div class="row mt-4 d-flex align-items-center">
+                    <div class="col-sm-6 order-md-2 text-right">
+                        <a href="/create-checkout-session" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">Checkout</a>
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+                        <a href="menu" class="btn btn-light mb-4 btn-lg pl-5 pr-5">
+                            🔙Add to🍽️</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="copy-right text-center">
+            <p class="text-dark">© 2023.Indo Bites. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>document.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+            }
+        });
+    </script>
+    <!--Iconicon  -->
+    <script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script>
+
+    <!-- Botstrap js -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

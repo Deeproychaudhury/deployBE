@@ -1,0 +1,293 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Page</title>
+    <link rel="icon" href="{% static 'logo1.png' %}" type="image/png">
+    <!-- HTMX JavaScript -->
+    <script src="https://unpkg.com/htmx.org"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <!-- MDBootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.20.0/css/mdb.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        p {
+            font-size: 0.85rem;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: 400;
+            line-height: normal;
+            letter-spacing: 1px;
+            padding: 0;
+        }
+
+        .deleteform {
+            display: inline;
+            visibility: hidden;
+        }
+
+        .user1bubble:hover .deleteform {
+            visibility: visible;
+        }
+
+        .green-circle {
+            display: inline-block;
+            width: 10px;
+            /* Small size */
+            height: 10px;
+            background-color: #28a745;
+            /* Bootstrap's 'success' green */
+            border-radius: 50%;
+            /* Makes the circle */
+            margin-right: 8px;
+            /* Space between the circle and the member's name */
+        }
+
+        .grey-circle {
+            display: inline-block;
+            width: 10px;
+            /* Small size */
+            height: 10px;
+            background-color: #525953;
+            /* Bootstrap's 'success' green */
+            border-radius: 50%;
+            /* Makes the circle */
+            margin-right: 8px;
+            /* Space between the circle and the member's name */
+        }
+
+        .user1bubble,
+        .user2bubble {
+            padding: 5px;
+            border-radius: 10px;
+            max-width: 75%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .user1bubble {
+            background-color: #c3dcb0;
+            margin-left: auto;
+            border-top-right-radius: 0;
+        }
+
+        .user2bubble {
+            background-color: #ebd4d4;
+            margin-right: auto;
+            border-top-left-radius: 0;
+        }
+
+        .user1bubble img,
+        .user2bubble img {
+            margin-right: 5px;
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+        }
+
+        .chat-container {
+            height: 600px;
+            overflow-y: scroll;
+            background-color: #eeeeee97;
+        }
+
+        .form-control-lg {
+            flex: 1;
+            margin-right: 10px;
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group-append button {
+            border-radius: 20px;
+            padding: 10px 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img decoding="async" src="{% static 'logo.png' %}" height="80"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="text-muted" style="font-family:'papyrus'">Click me</span>
+                    <i class="fas fa-stream navbar-toggler-icon"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/prof/{{user.username}}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart">🛒Cart</a>
+                        </li>
+                        <div class="d-flex position-relative">
+                            <li id="chats-list" class="nav-item dropdown">
+
+                            </li>
+                            <span id="online-inchat" class="position-absolute top-0 start-50 translate-middle-x"></span>
+                        </div>
+
+                        <li>
+                            <strong> Welcome, Dear {{user.username}}</strong>
+                        </li>
+                        {% if sign %}
+                        <button class="main-btn"><a href="/logout">logout</a></button>
+                        {% else %}
+                        <button class="main-btn"><a href="/login">login</a></button>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container w-100" style="background-image: conic-gradient(#cfa4d7, #dbd2a0, #9eda99, #acc4e4, #a37a7a);">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card" style="background-color: #dcdbdcc8;">
+                    <div class="card-body chat-container" id="chat-container">
+
+                        {% if otheruser %}
+                        <a style="text-decoration: none; color: black;" href="{% url 'prof' otheruser.username %}">
+                            <h3 class="text-start">{{otheruser.username}}<small id="online-h3" style="color: #4d524e;font-size: 0.75rem;"> offline</small></h3>
+                        </a>
+                        {% if otheruser in chat_group.banlist.all %}
+                        <span class="float-end" style="font-size: 0.75rem;">
+                            <form method="POST" action="{% url 'unblockuser' chat_group.groupname %}">{% csrf_token %}
+                                <input name="otheruserid" type="hidden" value="{{otheruser.id}}"><button type="submit" style="border: none;">Unblock</button>
+                            </form>
+                        </span>
+                        {% else %}
+                        <span class="float-end" style="font-size: 0.75rem;">
+                            <form method="POST" action="{% url 'blockuser' chat_group.groupname %}"> {% csrf_token %}
+                                <input name="otheruserid" type="hidden" value="{{otheruser.id}}"><button type="submit" style="border: none;">Block</button>
+                            </form>
+                        </span>
+                        {% endif %}
+
+                        {% else %}
+                        {% if chat_group.groupchat_name %}
+                        <div class="d-flex justify-content-between">
+                            <strong class="d-flex align-items-center">
+                                <div id="groupchat_members" class=" dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa-solid fa-user-group"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        {% for members in chat_group.members.all%}
+                                        <a class="dropdown-item" style="text-decoration: none; color: black;" href="{% url 'prof' members.username %}">{{members.username|slice:":10"}}</a>
+                                        {% endfor%}
+                                    </div>
+                                </div> {{chat_group.groupchat_name}}
+                                {% if user == chat_group.admin %}
+                                <a href="{% url 'edit-chatroom' chat_group.groupname %}"> <i class="fas fa-edit"></i></a>
+                                {% endif %}
+                                <small class="text-muted mx-2">share the url to invite other members <i id="copyButton" style="cursor: pointer;" class="fa-regular fa-copy"></i></small>
+                            </strong>
+                            {% if chat_group.members.exists %}
+                            <a href="{% url 'chatroom-leave' chat_group.groupname %}"><i class="fa-solid fa-right-from-bracket"></i></a>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% endif %}
+                        <h4 class="text-center"> Online <span id="online-count"></span>
+                        </h4>
+                        {% endif %}
+                        <hr>
+                        {% for message in chat_messages reversed %}
+                        {% include 'chat_message.html' %}
+                        {% endfor %}
+                    </div>
+                    <form id="chat-container-form" class="card-footer d-flex align-items-center " hx-ext="ws" ws-connect="/ws/chatroom/{{chatroom_name}}" ws-send _="on htmx:wsAfterSend reset()  me">
+                        {% csrf_token %}
+                        <div class="input-group flex-grow-1">
+                            {{ form.body }}
+                            <!--   <div class="input-group-append">
+                                <button class="btn-primary" type="submit"><i class="fas fa-paper-plane"></i></button>
+                            </div>-->
+                        </div>
+                    </form>
+                    <div class="dropdown">
+                        <button class="main-btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Send <i class="fa-solid fa-paperclip"></i>
+                        </button>
+                        <form id="chat-container-form" class="dropdown-menu card-footer bg-light" aria-labelledby="dropdownMenuButton1" enctype="multipart/form-data" hx-post="{% url 'chatfileupload' chat_group.groupname %}" hx-target="#chat-container" hx-swap="beforeend" _="on htmx:beforeSend reset()  me">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="file" name="file" id="file" class="form-control-lg">
+                                <div class="input-group-append">
+                                    <button class="btn-primary" type="submit"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </div> <!-- This div was missing -->
+                        </form> <!-- This form tag was missing -->
+                    </div>
+                </div> <!-- Closing card div -->
+            </div> <!-- Closing col-md-8 div -->
+        </div> <!-- Closing row div -->
+    </div> <!-- Closing container div -->
+
+
+
+    <footer id=" footer" hx-ext="ws" ws-connect="/ws/online-status/">
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="footer-copy">
+                            <div class="copy-right text-center pt-5 pb-3">
+                                <p class="text-light">© 2023. Indo Bites. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToBottom(time = 0) {
+            setTimeout(() => {
+                const container = document.getElementById('chat-container');
+                container.scrollTop = container.scrollHeight;
+            }, time);
+        }
+        scrollToBottom();
+        document.getElementById("copyButton").addEventListener("click", function () {
+            // Get the current URL
+            const url = window.location.href;
+
+            // Copy the URL to the clipboard
+            navigator.clipboard.writeText(url)
+                .then(() => {
+                    console.log('URL copied to clipboard');
+                })
+                .catch((error) => {
+                    console.error('Failed to copy URL to clipboard:', error);
+                });
+        });
+    </script>
+    <!-- MDBootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
+    <!-- Popper.js (for Bootstrap dropdowns and tooltips) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

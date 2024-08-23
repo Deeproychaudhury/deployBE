@@ -1,0 +1,262 @@
+{% load static %}
+{% load cloudinary %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Indo Bites | Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'logo1.png' %}" type="image/png">
+    <style type="text/css">
+        body {
+            margin-top: 20px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.23), rgba(0, 0, 0, 0.153)), url("/static/bg/bg-4.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100%;
+            font-family: papyrus;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0.625rem;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--white-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+        }
+
+        /*
+        ==========================================
+           Custom CSS Design
+        ==========================================
+        */
+        :root {
+            --primary-color: #A82C48;
+            --secondry-color: #43121d;
+            --third-color: #f98169;
+            --white-color: #fffffffa;
+            --text-color: #0e0707;
+            --text-gray: #999;
+            --black-color: #000;
+            --primary-font: 'Roboto', sans-serif;
+            --secondry-font: 'Quicksand', sans-serif;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 3rem;
+            color: var(--secondry-color);
+        }
+
+        h2 {
+            font-weight: 700;
+            font-size: 2.25rem;
+            text-transform: capitalize;
+            font-family: var(--secondry-font);
+            color: var(--secondry-color);
+            line-height: 3rem;
+
+        }
+
+
+
+        h4 {
+            color: var(--secondry-color);
+            font-family: var(--secondry-font);
+            text-transform: capitalize;
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-btn {
+            display: inline-block;
+            padding: 0.625rem 1.875rem;
+            line-height: 1.5625rem;
+            background-color: var(--primary-color);
+            border: 0.1875rem solid var(--primary-color);
+            color: var(--white-color);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            box-shadow: 0px 2px 10px -1px rgb(0 0 0 / 19%);
+            -webkit-transition: all .4s ease-out 0s;
+            -o-transition: all .4s ease-out 0s;
+            -moz-transition: all .4s ease-out 0s;
+            transition: all .4s ease-out 0s;
+        }
+
+        .main-btn:hover {
+            background-color: rgba(224, 208, 208, 0.488);
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        label {
+            color: #A82C48
+        }
+
+        button {
+            background-color: #A82C48;
+            color: azure;
+        }
+
+        .footer {
+            background: #A82C48;
+        }
+
+        .footer .footer-link {
+            font-size: 1rem;
+            color: #fffffffa;
+            padding: 0 1.875rem;
+        }
+
+        .footer .footer-link:hover {
+            color: #fffffffa !important;
+        }
+
+        .footer a i {
+            font-size: 1.5rem;
+            color: #fffffffa;
+            padding: 0 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="row flex-lg-nowrap">
+            <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
+                <div class="card p-3">
+                    <div class="e-navlist e-navlist--active-bg">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link px-2" href="\"><i class="fas fa-house"></i><span> Home</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-2" href="\menu"><i class="fa fa-fw fa-th mr-1"></i><span> Menu</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-2" href="/display_wishlist"><i class="fa fa-fw fa-cog mr-1"></i><span> Food Preferences</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="row">
+                    <div class="col mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="e-profile">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-auto mb-3">
+                                            <div class="mx-auto" style="width: 140px;">
+                                                <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+                                                    <img src="{{user.profile.image.url}}" alt="profile pic" style="height: 140px; width: 140px; object-fit: cover; object-position: center;">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                            <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                                <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.username}}</h4>
+                                                <p class="mb-0">{{user.email}}</p>
+                                                <p>{{user.profile.phone}}</p>
+                                                <p>{{user.profile.address}}</p>
+                                                <small>{{user.profile.state}}</small>
+                                                <div class="mt-2">
+                                                    <p class="mb-0">{{user.profile.review}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-center text-md-right">
+                                                <span class="badge bg-secondary" style="background-color: #A82C48; color: azure;">{{user.username}}</span>
+                                                <div class="text-muted"><small>Joined {{user.date_joined}}</small></div>
+                                                <div class="text-muted"><small>Last login: {{user.last_login}}</small></div>
+                                                <form action="/deleteprofile" method="POST">
+                                                    {% csrf_token %}
+                                                    <button class="btn main-btn mt-2 m-2" type="submit">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item"><span class="nav-link active" style="background-color: #A82C48; color: azure;">Settings</span></li>
+                                    </ul>
+
+                                    <div class="tab-content pt-3">
+                                        <div class="tab-pane active">
+                                            <form class="form" action="/prof/{{user.username}}/" enctype="multipart/form-data" method="POST">
+                                                {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                {{ uform.as_p }}
+                                                            </div>
+                                                            <div class="col">
+                                                                {{ pform.as_p }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col d-flex justify-content-end">
+                                                    <button class="btn main-btn" type="submit">Save Changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3 mb-3">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="px-xl-3">
+                                    <button class="btn btn-danger w-100"><i class="fa fa-sign-out-alt"></i> <span><a style="color: #fefcfc;" href="/logout">Logout</a></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold" style="color: #A82C48;">Support</h6>
+                                <p class="card-text">Get fast, free help from our friendly assistants.</p>
+                                <button class="btn" style="background-color: #A82C48; color: azure;">Contact Us</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

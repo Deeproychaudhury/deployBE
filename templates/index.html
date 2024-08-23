@@ -1,0 +1,625 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="Description" content="Enter your description here" />
+  <link rel="icon" href="{% static 'logo1.png' %}" type="image/png">
+  <title>Indo Bites | Home </title>
+  <!-- bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- OWN CSS -->
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+
+  <!-- Other head elements -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    .slide-right {
+      animation: 1s slide-right;
+    }
+
+    @keyframes slide-right {
+      from {
+        margin-left: -100%;
+      }
+
+      to {
+        margin-left: 0%;
+      }
+    }
+
+    .amenities {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      color: rgb(243, 243, 243);
+    }
+
+    .amenities .text-center,
+    .banquet-services .text-center {
+      flex: 1;
+      min-width: 120px;
+      /* Ensures items don't shrink too much on small screens */
+    }
+
+    .amenities .text-center i,
+    .banquet-services .text-center i {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    a {
+      color: rgb(197, 191, 191);
+    }
+  </style>
+</head>
+
+<body onload="typeWriter()">
+  <!-- header design -->
+  <header>
+    <nav class="navbar navbar-expand-lg navigation-wrap shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="#"><img decoding="async" src="{% static 'logo.png' %}" height="80"></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="text-muted" style="font-family:'papyrus'">Click me</span>
+          <i class=" fas fa-stream navbar-toggler-icon"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/prof/{{user.username}}">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#testimonial">Reviews</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#faq">FAQ</a>
+            </li>
+            <li>
+              <strong> Welcome Dear {{value}}</strong>
+              {% if sign %}
+              <button class="main-btn"><a href="/logout">logout</a></button>
+            </li>
+            {% else %}
+            <button class="main-btn"><a href="/login">login</a></button>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- section-1 top-banner -->
+  <section id="home">
+    <div class="container-fluid px-0 top-banner">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5 col-md-6">
+            <h1 id="demo"></h1>
+            <p>Taste the goodness, reap the rewards. Make good food choices and enjoy the dividends at our restaurant.
+            </p>
+            <div class="mt-4">
+              <button class="main-btn"><a href="/cart">Order now <i class="fas fa-shopping-basket ps-3"></i></a></button>
+              <button class="white-btn ms-lg-4 mt-lg-0 mt-4"><a href="/menu">Menu <i class="fas fa-angle-right ps-3"></i></a></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section-2 counter -->
+  <section id="counter">
+    <section class="counter-section">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-md-3 mb-lg-0 mb-md-0 mb-5">
+            <h2>
+              <span id="count1"></span>+
+            </h2>
+            <p>DELIVERIES</p>
+          </div>
+          <div class="col-md-3 mb-lg-0 mb-md-0 mb-5">
+            <h2>
+              <span id="count2"></span>+
+            </h2>
+            <p>HAPPY CUSTOMERS</p>
+          </div>
+          <div class="col-md-3 mb-lg-0 mb-md-0 mb-5">
+            <h2>
+              <span id="count3"></span>+
+            </h2>
+            <p>BOOKINGS</p>
+          </div>
+          <div class="col-md-3 mb-lg-0 mb-md-0 mb-5">
+            <h2>
+              <span id="count4"></span>+
+            </h2>
+            <p>RECOMMENDATIONS</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- section-3 about-->
+  <section id="about">
+    <div class="about-section wrapper">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-7 col-md-12 mb-lg-0 mb-5">
+            <div class="card border-0">
+              <img decoding="async" src="{%static '/img/img-1.png'%}" class="img-fluid">
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-12 text-sec">
+            <h2>A Taste Above the Rest. Our Culinary Masterpieces with Premium Ingredients.</h2>
+            <p>We source only the finest, freshest, and most flavorful ingredients, from locally-sourced produce to
+              sustainably-raised meats and seafood.
+              Our skilled and experienced chefs are passionate about their craft, constantly innovating and
+              experimenting to bring you unique and memorable dining experiences.
+              Our attention to detail extends to the presentation of our dishes, with each plate being a visual work of
+              art that is as beautiful as it is delicious.</p>
+            <button class="main-btn mt-4"><a href="menu">Learn More</a> </button>
+          </div>
+        </div>
+      </div>
+      <div class="container food-type">
+        <div class="row align-items-center">
+          <div class="col-lg-5 col-md-12 text-sec mb-lg-0 mb-5">
+            <h2>Cozy Indian Style Dining.</h2>
+            <p>Blending traditional Indian favorites with modern and delightfully innovative dishes, our menu selection
+              is vast and enchanting. Our aim is to express the true spirit of Indian cooking and create a food
+              experience to savor.</p>
+            <ul class="list-unstyled py-3">
+              <li>Vast, enchanting menu: True spirit of India.</li>
+              <li>Unique dining adventure: India's rich culinary heritage.</li>
+              <li>Authentic Indian fusion: Classic favorites, modern twist.</li>
+            </ul>
+            <button class="main-btn mt-4"><a href="menu">Learn More</a> </button>
+          </div>
+          <div class="col-lg-7 col-md-12">
+            <div class="card border-0">
+              <img decoding="async" src="{%static '/img/img-2.png'%}" class="img-fluid">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section-3 BOOKING-->
+  <section id="story" class="py-5 bg-light">
+    <div class="story-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 col-md-10">
+            <div class=" shadow-lg border-0">
+              <div class="card-body p-5 text-content">
+                <h2 class="card-title text-center mb-4">Reserve Our Exquisite Halls</h2>
+                <p class="text-center mb-4" style="color:rgb(243, 243, 243)">Make your special day even more memorable with our beautiful venues.</p>
+                <p class="text-center mb-4" style="color:rgb(243, 243, 243)"> For more details go to <a href="/hallbooking" class="white-btn">HallBooking</a></p>
+                <form method="post" action="/hallbooking">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    {{ form.category.label_tag }}
+                    {{ form.category }}
+                  </div>
+                  <div class="mb-3">
+                    {{ form.ammenity.label_tag }}
+                    {{ form.ammenity }}
+                  </div>
+                  <!--  <div class="mb-3 ">
+                    {{ form.stage }}
+                    {{ form.stage.label_tag }}
+                  </div>-->
+                  <div class="mb-3">
+                    {{ form.hallcapacity.label_tag }}
+                    {{ form.hallcapacity }}
+                  </div>
+                  <div class="mb-3">
+                    {{ form.checkin.label_tag }}
+                    {{ form.checkin }}
+                  </div>
+                  <div class="mb-3">
+                    {{ form.checkout.label_tag }}
+                    {{ form.checkout }}
+                  </div>
+
+
+                  <button type="submit" class="btn main-btn">Book Hall</button>
+
+                </form>
+                <hr style="color: antiquewhite;" />
+                <h4 class="text-center card-title mb-3" style="color: antiquewhite;">Amenities & Services</h4>
+                <div class="amenities">
+                  <div class="text-center">
+                    <i class="fa-solid fa-wifi fa-2x"></i>
+                    <span class="mt-2">WiFi</span>
+                  </div>
+                  <div class="text-center">
+                    <i class="fa-solid fa-car-side fa-2x"></i>
+                    <span class="mt-2">Parking</span>
+                  </div>
+                  <div class="text-center">
+                    <i class="fa-solid fa-snowflake fa-2x"></i>
+                    <span class="mt-2"> 24/7 AC</span>
+                  </div>
+                  <div class="text-center">
+                    <i class="fa-solid fa-utensils fa-2x"></i>
+                    <span class="mt-2">Cafeteria</span>
+                  </div>
+                  <div class="text-center">
+                    <i class="fa-solid fa-microphone fa-2x "></i>
+                    <span class="mt-2">Karaoke with Surround Sound System</span>
+                  </div>
+                  <div class="text-center">
+                    <i class="fa-solid fa-music fa-2x"></i>
+                    <span class="mt-2">Dance Floor</span>
+                  </div>
+                </div>
+                <small class="text-center" style="color: antiquewhite;">*Additional services available upon request</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section-4 explore food-->
+  <section id="slide-right">
+    <div class="explore-food wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="text-content text-center">
+              <h2>Explore Our Foods</h2>
+              <p>Join us at Indo Bites to embark on a culinary adventure and experience the true essence of Indian
+                cuisine. Whether you're a seasoned fan of Indian food or new to its flavors, our restaurant promises to
+                delight your senses with our exquisite offerings</p>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-5">
+          <div class="col-lg-4 col-md-6 mb-lg-0 mb-5">
+            <div class="card">
+              <img decoding="async" src="{%static '/img/img-3.png'%}" class="img-fluid">
+              <div class="pt-3">
+                <h4>Handi Biriyani</h4>
+                <p>Time: 30 - 45 Minutes | Serves: 1</p>
+                <span>₹310 <del>₹330</del></span>
+                <button class="mt-4 main-btn"><a href="menu">Order Now</a></button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-lg-0 mb-5">
+            <div class="card">
+              <img decoding="async" src="{%static '/img/img-4.png'%}" class="img-fluid">
+              <div class="pt-3">
+                <h4>Panner Tikka</h4>
+                <p>Time: 20 - 25 Minutes | Serves: 1</p>
+                <span>₹185<del>₹200</del></span>
+                <button class="mt-4 main-btn"><a href="menu">Order Now</a></button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-lg-0 mb-5">
+            <div class="card">
+              <img decoding="async" src="{%static '/img/img-5.png'%}" class="img-fluid">
+              <div class="pt-3">
+                <h4>Tandoori Chicken</h4>
+                <p>Time: 25 - 35 Minutes | Serves: 1</p>
+                <span>₹320<del>₹350</del></span>
+                <button class="mt-4 main-btn"><a href="menu">Order Now</a></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section-5 testimonial-->
+  <section id="testimonial">
+    <div class="wrapper testimonial-section">
+      <div class="container text-center">
+        <div class="text-center pb-4">
+          <h2>Testimonial</h2>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-lg-10 offset-lg-1">
+            <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="carousel-caption">
+                    <img decoding="async" src="{%static '/review/review-1.jpg'%}">
+                    <p>"Indo Bites is my go-to restaurant for Indian cuisine.The variety of dishes on their menu is
+                      impressive."</p>
+                    <h5>Nelsonya - Professional Model</h5>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="carousel-caption">
+                    <img decoding="async" src="{%static '/review/review-2.jpg'%}">
+                    <p>The restaurant has a warm and welcoming atmosphere, and the staff is knowledgeable and helpful in
+                      recommending dishes.</p>
+                    <h5>Lucas Park - YouTuber</h5>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="carousel-caption">
+                    <img decoding="async" src="{%static '/review/review-3.jpg'%}">
+                    <p>"Indo Bites has become my favorite Indian restaurant and I can't wait to go back for more!"</p>
+                    <h5>Arun Patel- Food Blogger</h5>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="carousel-caption">
+                    <img decoding="async" src="{%static '/review/review-4.png'%}">
+                    <p>"I recently dined at Indo Bites, and I was blown away by the quality of the food. I highly
+                      recommend trying their Chicken Tikka Butter Masala."</p>
+                    <h5>Sagnik Chakravarty - Unemployed</h5>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- section-6 faq-->
+  <section id="faq">
+    <div class="faq wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="text-center pb-4">
+              <h2>Frequently Asked Questions</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-5">
+          <div class="col-sm-6 mb-4">
+            <h4><span>~</span>What are your operating hours?</h4>
+            <p>You can enjoy our culinary offerings during our regular operating hours, from Monday to Saturday from
+              3:00PM-9:00PM.The operating hours on Sunday is from 5:00PM to 9:00 PM
+              Join us for a delightful dining experience .
+            </p>
+          </div>
+          <div class="col-sm-6 mb-4">
+            <h4><span>~</span>Do you offer catering or private event services?</h4>
+            <p>Yes, we offer catering and private event services to make your special occasions truly exceptional. From
+              weddings to corporate events, our team creates custom dining experiences to suit your needs.
+              Contact us for more details on our catering and private event offerings.
+            </p>
+          </div>
+          <div class="col-sm-6 mb-4">
+            <h4><span>~</span>Do you offer takeout or delivery services?</h4>
+            <p>Yes, you can conveniently order our menu online for takeout or delivery. Simply browse our selection,
+              place your order, and enjoy our delicious cuisine in the comfort of your own home.
+              Visit our website to explore our online ordering options and savor our flavors at your convenience.
+            </p>
+          </div>
+          <div class="col-sm-6 mb-4">
+            <h4><span>~</span>Are beverages and drinks available ?</h4>
+            <p>Indulge in a wide array of beverages and drinks at our restaurant. From refreshing soft drinks to
+              carefully crafted cocktails, we have a diverse selection to complement your dining experience. Cheers to
+              your enjoyment!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- section-7 book-food-->
+  <!-- section-7 book-food-->
+  <section id="book-food">
+    <div class="book-food">
+      <div class="container book-food-text">
+        <div class="row justify-content-center">
+          <div class="col-lg-9 col-md-12 text-center">
+            <h2 class="w-100 py-2" style="color: white; background-color: transparent;">Join The Community</h2>
+            <p style="color: white; background-color: transparent; font-size:1.5rem ;">Joining the community chat of
+              IndoBites, an Indian food cuisine specialist restaurant, offers a wealth of benefits for
+              food enthusiasts and loyal patrons alike. By becoming part of this vibrant community, you gain access to
+              exclusive
+              updates on the latest menu items, seasonal specials, and culinary events. Engage directly with fellow food
+              lovers to
+              share experiences, tips, and recipes, or get personalized recommendations from the chefs
+              themselves.Connect with fellow food
+              enthusiasts, share
+              opinions, and interact with one another in our community
+              chat.
+            </p>
+            <button class="main-btn btn mt-4"><a href="/chatview">Join the Chat</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- section-8 newslettar-->
+  <section id="newslettar">
+    <div class="newslettar wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="sol-sm-12">
+            <div class="text-content text-center pb-4">
+              <h2>Hurry up! Subscribe our newsletter
+                and get special offers</h2>
+              <p>Limited time offer for this month. No credit card required. </p>
+            </div>
+            {% if user in messageboard.subscribers.all %}
+            <p class="text-success text-center">You are already subscribed</p>
+            <p class="text-center"><a href="{% url 'subscribe' %}" class="text-center main-btn">Unsubscribe</a></p>
+            {% else %}
+            <form class="newsletter" method="post" action="{% url 'subscribe' %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-8 col-12">
+
+                  <input class="form-control" placeholder="Email Address here" name="email" type="email">
+                </div>
+                <div class="col-md-4 col-12">
+                  <button class="main-btn" type="submit">
+                    Subscribe
+                  </button>
+                </div>
+              </div>
+            </form>
+            {% endif %}
+            {% if user.is_staff or user.is_superuser %}
+            <p class="text-center">
+              <a href="/newsletter">Send messageboard</a>
+            </p>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- section-9 footer-->
+  <footer id="footer">
+    <div class="footer py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <a class="footer-link" href="/signin">Register</a>
+            <a class="footer-link" href="/prof">Profile</a>
+            <a class="footer-link" href="#testimonial">Testimonial</a>
+            <a class="footer-link" href="#">Affiliate</a>
+            <a class="footer-link" href="#">FAQ</a>
+            <div class="footer pt-4 text-center">
+
+              {% if user.is_staff or user.is_superuser %}
+              <a href="/list-orders" class="footer-link">Go to
+                list-orders</a>
+              <a href="/hallbookinglist" class="footer-link">Go to
+                HallBookings</a>
+              {% endif %}
+              {% if user.is_anonymous %}
+              <p class="text-dark">Login to track your orders</p>
+              {% else %}
+              <a href="/ordertracker" class="footer-link">Track YOUR
+                ORDERS</a>
+              {% endif %}
+            </div>
+            <div class="footer-social pt-4 text-center">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+              <a href="#"><i class="fab fa-dribbble"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="footer-copy">
+              <div class="copy-right text-center pt-5">
+                <p class="text-light">© 2023.Indo Bites. All rights reserved.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- JS Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+  <!-- own js -->
+  <script src="{%static 'js/main.js'%}"></script>
+
+  <script>
+    var i = 0;
+    var txt = 'Good food choices are good investments.';
+    var speed = 50;
+
+    function typeWriter() {
+      if (i < txt.length) {
+        document.getElementById("demo").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+    $(document).ready(function () {
+      $("#from-datepicker").datepicker({
+        format: 'yyyy-mm-dd'  //can also use format: 'dd-mm-yyyy'     
+      });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      const slideRightSection = document.querySelector('#slide-right');
+      const slideSection = document.querySelector('#about');
+      const slidingSection = document.querySelector('#faq');
+
+      function handleScroll() {
+        const sectionPosition = slideRightSection.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+
+        if (sectionPosition < screenPosition) {
+          slideRightSection.classList.add('slide-right');
+          window.removeEventListener('scroll', handleScroll); // Remove event listener after animation
+        }
+      }
+      function handeScroll() {
+        const sectionPosition = slideSection.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+
+        if (sectionPosition < screenPosition) {
+          slideSection.classList.add('slide-right');
+          window.removeEventListener('scroll', handeScroll); // Remove event listener after animation
+        }
+      }
+      function handleSroll() {
+        const sectionPosition = slidingSection.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+
+        if (sectionPosition < screenPosition) {
+          slidingSection.classList.add('slide-right');
+          window.removeEventListener('scroll', handleSroll); // Remove event listener after animation
+        }
+      }
+
+
+      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('scroll', handeScroll);
+      window.addEventListener('scroll', handleSroll);
+    });  
+  </script>
+</body>
+
+</html>

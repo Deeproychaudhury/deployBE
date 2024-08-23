@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+    <link rel="icon" href="{% static 'logo1.png' %}" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.20.0/css/mdb.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg ">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img decoding="async" src="{% static 'logo.png' %}" height="80"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="text-muted" style="font-family:'papyrus'">Click me</span>
+                    <i class="fas fa-stream navbar-toggler-icon"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#about">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#faq">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/prof">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart">🛒Cart</a>
+                        </li>
+                        <li>
+                            <strong> Welcome Dear {{user.username}}</strong>
+                        </li>
+                        {% if sign %}
+                        <button class="main-btn"><a href="/logout">logout</a></button>
+
+                        {% else %}
+                        <button class="main-btn"><a href="/login">login</a></button>
+
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Hall Bookings List</h2>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Booking ID</th>
+                    <th scope="col">Hall Number</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Amenity</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Check-In</th>
+                    <th scope="col">Check-Out</th>
+                    <th scope="col">Payment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.booking_id }}</td>
+                    <td>{{ booking.Hall.number }}</td>
+                    <td>{{ booking.Hall.category }}</td>
+                    <td>{{ booking.ammenity }}</td>
+                    <td>{{ booking.customer.username }}</td>
+                    <td>{{ booking.checkin|date:"Y-m-d H:i" }}</td>
+                    <td>{{ booking.checkout|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        {% if booking.payment_status %}
+                        <span class="badge bg-success">Paid</span>
+                        {% else %}
+                        <span class="badge bg-danger">Pending</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <footer id="footer">
+        <div class="footer py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a class="footer-link" href="/signin">Register</a>
+
+                        {% if user.is_anonymous %}
+                        <p class="text-dark">Login to track your orders</p>
+                        {% else %}
+                        <a href="/ordertracker" class="footer-link">Track YOUR
+                            ORDERS</a>
+                        {% endif %}
+                        <div class="footer-social pt-4 text-center">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-dribbble"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="footer-copy">
+                            <div class="copy-right text-center pt-5">
+                                <p class="text-light">© 2023. Indo Bites. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

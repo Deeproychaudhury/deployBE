@@ -1,0 +1,396 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve Our Halls</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        .card-img-uniform {
+            height: 200px;
+            /* Set a fixed height */
+            object-fit: cover;
+            /* Ensure the image covers the entire area */
+            object-position: center;
+            /* Center the image */
+        }
+
+        .amenities,
+        .banquet-services {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            color: rgb(243, 243, 243);
+        }
+
+        .amenities .text-center,
+        .banquet-services .text-center {
+            flex: 1;
+            min-width: 120px;
+            /* Ensures items don't shrink too much on small screens */
+        }
+
+        .amenities .text-center i,
+        .banquet-services .text-center i {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .slide-right {
+            animation: 2s slide-right;
+        }
+
+        @keyframes slide-right {
+            from {
+                margin-left: -100%;
+            }
+
+            to {
+                margin-left: 0%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg shadow ">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img decoding="async" src="{% static 'logo.png' %}" height="80"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="text-muted" style="font-family:'papyrus'">Click me</span>
+                    <i class="fas fa-stream navbar-toggler-icon"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#about">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#faq">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/prof/{{user.username}}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart">🛒Cart</a>
+                        </li>
+                        <li>
+                            <strong> Welcome Dear {{user.username}}</strong>
+                        </li>
+                        {% if sign %}
+                        <button class="main-btn"><a href="/logout">logout</a></button>
+
+                        {% else %}
+                        <button class="main-btn"><a href="/login">login</a></button>
+
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert" style="position: relative; padding-right: 3rem;">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="position: absolute; top: 50%; right: 0.5rem; transform: translateY(-50%); border: none; background: none; padding: 0; font-size: 1.25rem;">❌</button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h2 class="display-4">Why Choose Indo Bites for Your Events?</h2>
+                <p class="lead">Discover the elegance and excellence of our banquet and party halls, perfect for every occasion.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Left Column: Description -->
+            <div class="col-md-6">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <h4 class="card-title">Exquisite Banquet and Party Halls</h4>
+                        <p class="card-text">
+                            At Indo Bites, our banquet and party halls are designed with both luxury and functionality in mind. Whether you are hosting a wedding, corporate event, or a family gathering, our halls provide the perfect ambiance to make your occasion memorable.
+                        </p>
+                        <p class="card-text">
+                            With state-of-the-art facilities, customizable decor options, and a dedicated team of event planners, we ensure that every detail of your event is flawless.
+                        </p>
+                        <p class="card-text">
+                            Our halls are equipped with advanced lighting and sound systems, comfortable seating, and ample space for dining and dancing, ensuring your guests have an unforgettable experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Awards and Certifications -->
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="icon mr-3">
+                                    <i class="bi bi-trophy-fill text-warning" style="font-size: 2rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title">Best Banquet Hall 2023</h5>
+                                    <p class="card-text">Awarded by the City Hospitality Council for excellence in event hosting and service.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="icon mr-3">
+                                    <i class="bi bi-award-fill text-primary" style="font-size: 2rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title">Certified Event Venue</h5>
+                                    <p class="card-text">Recognized by the National Event Planners Association for meeting the highest standards of quality.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="icon mr-3">
+                                    <i class="bi bi-star-fill text-success" style="font-size: 2rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title">5-Star Customer Rating</h5>
+                                    <p class="card-text">Rated by hundreds of satisfied clients for our exceptional service and facilities.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="icon mr-3">
+                                    <i class="bi bi-people-fill text-info" style="font-size: 2rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title">Top Event Planner Partnership</h5>
+                                    <p class="card-text">Partnered with leading event planners to deliver top-notch experiences for all types of events.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section id="slide-right">
+        <h1 class="text-center">Our Halls</h1>
+        <div class="d-md-flex justify-content-center m-3">
+            <div class="card m-1" style="width: 18rem;">
+                <img src="{% static 'bg/Small.jpg' %}" class="card-img-top card-img-uniform" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Suitable for small gatherings.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, dolores eaque repudiandae voluptas dolore quas iusto perferendis voluptates facere praesentium hic totam n </p>
+                    <a href="#story" class="btn main-btn">Book</a>
+                </div>
+            </div>
+            <div class="card m-1" style="width: 18rem;">
+                <img src="{% static 'bg/Medium,.jpg' %}" class="card-img-top card-img-uniform" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Midsized Hall</h5>
+                    <p class="card-text">Suitable for(6-10) people.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, dolores eaque repudiandae voluptas dolore quas iusto perferendis voluptates facere praesentium hic totam n!
+                    </p>
+                    <a href="#story" class="btn main-btn">Book</a>
+                </div>
+            </div>
+            <div class="card m-1" style="width: 18rem;">
+                <img src="{% static 'bg/GrandHall.jpg' %}" class="card-img-top card-img-uniform" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Grand Hall</h5>
+                    <p class="card-text">Suitable for(15-30) people.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, dolores eaque repudiandae voluptas dolore quas iusto perferendis voluptates facere praesentium hic totam n!</p>
+                    <a href="#story" class="btn main-btn">Book</a>
+                </div>
+            </div>
+            <div class="card m-1" style="width: 18rem;">
+                <img src="{% static 'bg/Deluxe.jpg' %}" class="card-img-top card-img-uniform" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Deluxe Hall</h5>
+                    <p class="card-text">Suitable for(30+) people.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Stage,Kareoke,HiTech robust surround soundSystem and More
+                        voluptates facere praesentium hic totam ntotam n!</p>
+                    <a href="#story" class="btn main-btn">Book</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="story" class="py-5 bg-light">
+        <div class="story-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-md-10">
+                        <div class=" shadow-lg border-0">
+                            <div class="p-5 text-content">
+                                <h2 class="card-title text-center mb-4">Reserve Our Exquisite Halls</h2>
+
+                                <p class="text-center mb-4" style="color:rgb(243, 243, 243)">Make your special day even more memorable with our beautiful venues.</p>
+
+                                <form method="post" action="/hallbooking">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        {{ form.category.label_tag }}
+                                        {{ form.category }}
+                                    </div>
+                                    <div class="mb-3">
+                                        {{ form.ammenity.label_tag }}
+                                        {{ form.ammenity }}
+                                    </div>
+                                    <!--<div class="mb-3 form-check">
+                                        Stage:{{ form.stage }}
+                                    </div>-->
+                                    <div class="mb-3">
+                                        <label>Number of Guests:</label>
+                                        {{ form.hallcapacity }}
+                                    </div>
+                                    <div class="mb-3">
+                                        {{ form.checkin.label_tag }}
+                                        {{ form.checkin }}
+                                    </div>
+                                    <div class="mb-3">
+                                        {{ form.checkout.label_tag }}
+                                        {{ form.checkout }}
+                                    </div>
+
+
+                                    <button type="submit" class="btn main-btn">Book Hall</button>
+
+                                </form>
+                                <hr />
+                                <h4 class="text-center card-title mb-3" style="color: antiquewhite;">Amenities & Services</h4>
+                                <div class="amenities">
+                                    <div class="text-center">
+                                        <i class="fa-solid fa-wifi fa-2x"></i>
+                                        <span class="mt-2">WiFi</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fa-solid fa-car-side fa-2x"></i>
+                                        <span class="mt-2">Parking</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fa-solid fa-snowflake fa-2x"></i>
+                                        <span class="mt-2"> 24/7 AC</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fa-solid fa-utensils fa-2x"></i>
+                                        <span class="mt-2">Cafeteria</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fa-solid fa-microphone fa-2x "></i>
+                                        <span class="mt-2">Karaoke with Surround Sound System</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fa-solid fa-music fa-2x"></i>
+                                        <span class="mt-2">Dance Floor</span>
+                                    </div>
+
+                                </div>
+                                <small class="text-center" style="color: antiquewhite;">*Additional services available upon request</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- section-9 footer-->
+    <footer id="footer">
+        <div class="footer py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a class="footer-link" href="/signin">Register</a>
+                        <a class="footer-link" href="/prof">Profile</a>
+                        <a class="footer-link" href="#testimonial">Testimonial</a>
+                        <a class="footer-link" href="#">Affiliate</a>
+                        <a class="footer-link" href="#">FAQ</a>
+                        <div class="footer pt-4 text-center">
+
+                            {% if user.is_staff or user.is_superuser %}
+                            <a href="/list-orders" class="footer-link">Go to
+                                list-orders</a>
+                            {% endif %}
+                            {% if user.is_anonymous %}
+                            <p class="text-dark">Login to track your orders</p>
+                            {% else %}
+                            <a href="/ordertracker" class="footer-link">Track YOUR
+                                ORDERS</a>
+                            {% endif %}
+                        </div>
+                        <div class="footer-social pt-4 text-center">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-dribbble"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="footer-copy">
+                            <div class="copy-right text-center pt-5">
+                                <p class="text-light">© 2023.Indo Bites. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const slideRightSection = document.querySelector('#slide-right');
+
+            function handleScroll() {
+                const sectionPosition = slideRightSection.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+
+                if (sectionPosition < screenPosition) {
+                    slideRightSection.classList.add('slide-right');
+                    window.removeEventListener('scroll', handleScroll); // Remove event listener after animation
+                }
+            }
+
+
+
+            window.addEventListener('scroll', handleScroll);
+
+        });  
+    </script>
+</body>
+
+</html>

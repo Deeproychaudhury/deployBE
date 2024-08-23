@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indo Bites | Login</title>
+  <link rel="icon" href="{% static 'logo1.png' %}" type="image/png">
+
+  <!-- login and create account css -->
+  <link rel="stylesheet" href="{% static 'login.css' %}">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Section: Design Block -->
+  <section class="logsec">
+    <!-- Jumbotron -->
+
+    <div class="px-4 py-5 px-md-5 text-center text-lg-start lodiv" ; background-repeat:no-repeat; background-size:cover ; height:100vh;>
+      <div class="container">
+        <div class="container">
+          <div class="row gx-lg-5 align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+              <h1 class="my-5 display-3 fw-bold ls-tight">
+                Escape to a world of
+                <span style="color:#A82C48">culinary bliss </span>
+              </h1>
+              <p style="color: white">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                quibusdam tempora at cupiditate quis eum maiores libero
+                veritatis? Dicta facilis sint aliquid ipsum atque?
+              </p>
+            </div>
+
+            <div class="col-lg-6 mb-5 mb-lg-0">
+              <div class="card">
+                <div class="card-body py-5 px-md-5">
+                  <form id="login-form" method="post" action="/login">
+                    {% csrf_token %}
+                    <img class="mb-4" src="{% static 'logo.png' %}" alt=" bootstrap" height="107">
+
+                    <!-- Username input -->
+                    <div class="form-outline mb-4">
+                      <input type="text" id="username" name="username" class="form-control" />
+                      <label class="form-label" for="username">Username</label>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                      <input type="password" id="password" name="password" class="form-control" />
+                      <label class="form-label" for="password">Password</label>
+                    </div>
+
+                    <!-- Error message display -->
+                    <div id="error-message" class="alert alert-danger" style="display:none;"></div>
+
+                    <!-- Submit button -->
+                    <button type="submit" id="login-button" style="background-color: #A82C48; color: azure;" class="btn btn-block mb-4">
+                      Log in
+                    </button>
+
+                    <!-- Forgot Your Password  -->
+                    <div style="text-align: center">
+                      <label class="form-check-label" style="color:#A82C48;" for="form2Example33;">
+                        <a href="/send_otp">Forgot Your Password?</a>
+                      </label>
+                    </div><br>
+
+                    <!-- Create account button -->
+                    <button type="button" style="background-color: #A82C48; color: azure;" class="btn btn-block mb-4">
+                      <a href="/signin" style="color: white;">Create an Account</a>
+                    </button>
+
+                    <!-- Register buttons -->
+                    <div class="text-center">
+                      <p>or sign up with:</p>
+                      <button type="button" disabled class="btn btn-link btn-floating mx-1" style="background-color: #A82C48; color: azure;">
+                        <i class="fab fa-facebook-f"></i>
+                      </button>
+                      <button type="button" class="btn btn-link btn-floating mx-1" style="background-color: #A82C48; color: azure;">
+                        {% load socialaccount %}
+                        <a href="{% provider_login_url 'google' %}?next=/" style="color: azure;"><i class="fab fa-google"></i></a>
+
+                      </button>
+                      <button type="button" disabled class="btn btn-link btn-floating mx-1" style="background-color: #A82C48; color: azure;">
+                        <i class="fab fa-twitter"></i>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Jumbotron -->
+  </section>
+  <!-- Section: Design Block -->
+
+  <!-- MDB and jQuery -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- AJAX script for handling login -->
+  <script>
+    $(document).ready(function () {
+      $('#login-form').on('submit', function (event) {
+        event.preventDefault();
+
+        var formData = {
+          'username': $('#username').val(),
+          'password': $('#password').val(),
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        };
+
+        $.ajax({
+          type: 'POST',
+          url: '/login',
+          data: formData,
+          success: function (response) {
+            window.location.href = "/";
+          },
+          error: function (xhr) {
+            var errorMessage = xhr.responseJSON.error || "Invalid username or password.";
+            $('#error-message').text(errorMessage).show();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
