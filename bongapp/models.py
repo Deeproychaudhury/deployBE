@@ -6,6 +6,7 @@ from shortuuid.django_fields import ShortUUIDField
 from datetime import timedelta
 from django.utils import timezone
 from PIL import Image
+import mimetypes
 
 from cloudinary_storage.storage import MediaCloudinaryStorage, RawMediaCloudinaryStorage, VideoMediaCloudinaryStorage
 
@@ -39,7 +40,7 @@ from django.core.files.base import ContentFile
 # Create your models here. DJANGO already comes with a built in user model 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='profile_pics/',blank=True, null=True) 
+    image = models.ImageField(upload_to='profile_pics/', default='media/profile_pics/ojfe8l5ulh2cyuy1wuiv') 
     phone = models.BigIntegerField(default=0000)
     review = models.TextField(default='No review', max_length=525)
     address = models.CharField(max_length=300, default='No address')
@@ -136,6 +137,20 @@ class Groupmessage(models.Model):
             return True 
         except:
             return False
+        
+    def save(self, *args, **kwargs):
+        if self.file:
+            mime_type, encoding = mimetypes.guess_type(self.file.name)
+            if mime_type and mime_type.startswith('image'):
+                self.file.storage = MediaCloudinaryStorage()
+            elif mime_type and mime_type.startswith('video'):
+                self.file.storage = VideoMediaCloudinaryStorage()
+            elif mime_type:
+                self.file.storage = RawMediaCloudinaryStorage()
+            else:
+                raise ValueError("Unsupported file type")
+
+        super(Groupmessage, self).save(*args, **kwargs)
     
     class Meta:
         ordering=['-created']
