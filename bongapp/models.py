@@ -75,7 +75,7 @@ class Product(models.Model):
     subcategory=models.CharField(max_length=70,default="spe")
     price=models.IntegerField(default=0)
     oldprice=models.IntegerField(default=330)
-    image=models.ImageField(upload_to="shop",default="demo.jpg") # store image
+    image=models.ImageField(upload_to="shop/",default="media/shop/Chicken-Biriyani_gzmwb3") # store image
     description=models.CharField(max_length=500)
     pub_date=models.DateField()
     stripe_price_id = models.CharField(max_length=255, blank=True, null=True)
