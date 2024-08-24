@@ -220,9 +220,16 @@ STRIPE_PUBLIC_KEY = 'pk_test_51PjkGyP8vW4nFj074MLBrldxHjLcsmGoJCPyUL9aew81a1Ob59
 STRIPE_SECRET_KEY = 'sk_test_51PjkGyP8vW4nFj07CiFE4QR1ZG9vJ9cZljHQVm80XckO24Rwe0JrlnuwEDIOVit8jDl5P7D4eQMA4dmWPQB8qkgi00v4VxVw3x'
 STRIPE_WEBHOOK_SECRET="whsec_65f6f35d4e47e750e587e997ff8d45c5a85cf516031e46f02dd0b8bc374efa2a"
 
-#CELERY_BROKER_URL = 'redis://localhost:6379/0'
+if ENVIRONMENT == 'development':
+   CELERY_BROKER_URL = 'redis://localhost:6379/0'
+else:
+   CELERY_BROKER_URL = 'redis://default:FzTIveiCBMkIeBsCMLWOPBScAfwzUDin@redis.railway.internal:6379'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-CELERY_RESULT_BACKEND = 'django-db'
+if ENVIRONMENT == 'development':
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+else:
+    CELERY_RESULT_BACKEND = 'redis://default:FzTIveiCBMkIeBsCMLWOPBScAfwzUDin@redis.railway.internal:6379'
+
 CELERY_RESULT_EXTENDED = True
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 
