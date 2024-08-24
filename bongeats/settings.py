@@ -40,9 +40,9 @@ else:
     DEBUG = False
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','indobites.up.railway.app']
 
-
+CSRF_TRUSTED_ORIGINS = ['https://indobites.up.railway.app']
 
 # Application definition
 INSTALLED_APPS = [
