@@ -305,7 +305,7 @@ def cart(request):
 
         return redirect('cart')
 
-      return render(request, 'cart.html', {'orders': orders, 'count': count, 'value': request.user.username, 'sum': sum})
+      return render(request, 'Cart.html', {'orders': orders, 'count': count, 'value': request.user.username, 'sum': sum})
 
 #HAndle payment
 
