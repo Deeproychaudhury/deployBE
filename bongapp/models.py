@@ -10,17 +10,33 @@ import mimetypes
 
 from cloudinary_storage.storage import MediaCloudinaryStorage, RawMediaCloudinaryStorage, VideoMediaCloudinaryStorage
 
+import cloudinary.api
+
+class ImageMediaCloudinaryStorage(MediaCloudinaryStorage):
+    def get_available_name(self, name, max_length=None):
+        return super().get_available_name(name, max_length)
+
+    def save(self, name, content, max_length=None):
+        content.resource_type = 'image'  # Explicitly set the resource type
+        return super().save(name, content, max_length)
+
+class VideoMediaCloudinaryStorage(MediaCloudinaryStorage):
+    def get_available_name(self, name, max_length=None):
+        return super().get_available_name(name, max_length)
+
+    def save(self, name, content, max_length=None):
+        content.resource_type = 'video'  # Explicitly set the resource type
+        return super().save(name, content, max_length)
+
+class RawMediaCloudinaryStorage(MediaCloudinaryStorage):
+    def get_available_name(self, name, max_length=None):
+        return super().get_available_name(name, max_length)
+
+    def save(self, name, content, max_length=None):
+        content.resource_type = 'raw'  # Explicitly set the resource type
+        return super().save(name, content, max_length)
+
 # For images
-class YourImageModel(models.Model):
-    image = models.ImageField(storage=MediaCloudinaryStorage())
-
-# For raw files (e.g., txt, pdf)
-class YourRawFileModel(models.Model):
-    file = models.FileField(storage=RawMediaCloudinaryStorage())
-
-# For videos
-class YourVideoModel(models.Model):
-    video = models.FileField(storage=VideoMediaCloudinaryStorage())
 
 REVIEW_CHOICES = (
     ("1 star", "1 star"),
@@ -137,12 +153,24 @@ class Groupmessage(models.Model):
             return True 
         except:
             return False
+    @property
+    def resource_type(self):
+        from cloudinary.exceptions import NotFound
+        # Fetch the resource info from Cloudinary
+        if self.file:
+            try:
+                response = cloudinary.api.resource(self.file.name)
+                return response.get('resource_type')
+            except NotFound as e:
+                print(f"Resource not found: {e}")
+                return f"Resource not found: {e}"
+        return None
         
     def save(self, *args, **kwargs):
         if self.file:
             mime_type, encoding = mimetypes.guess_type(self.file.name)
             if mime_type and mime_type.startswith('image'):
-                self.file.storage = MediaCloudinaryStorage()
+                self.file.storage = ImageMediaCloudinaryStorage()
             elif mime_type and mime_type.startswith('video'):
                 self.file.storage = VideoMediaCloudinaryStorage()
             elif mime_type:
