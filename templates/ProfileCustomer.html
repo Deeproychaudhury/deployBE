@@ -129,6 +129,17 @@
             color: #fffffffa;
             padding: 0 1rem;
         }
+
+        .smalldevicewidth {
+            width: 10rem;
+        }
+
+        @media (max-width : 450px) {
+            .smalldevicewidth {
+                width: 20rem;
+            }
+
+        }
     </style>
 </head>
 
@@ -137,7 +148,7 @@
 
     <div class="container">
         <div class="row flex-lg-nowrap">
-            <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
+            <div class="col-12 col-lg-auto mb-3 smalldevicewidth">
                 <div class="card p-3">
                     <div class="e-navlist e-navlist--active-bg">
                         <ul class="nav flex-column">
@@ -165,7 +176,7 @@
                                         <div class="col-12 col-sm-auto mb-3">
                                             <div class="mx-auto" style="width: 140px;">
                                                 <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-                                                    <img src="{{user.profile.image.url}}" alt="profile pic" style="height: 140px; width: 140px; object-fit: cover; object-position: center;">
+                                                    <img src="{{user.profile.image.url}}" alt="profile pic" class="img-fluid" height="140" width="140" style=" object-fit: cover; object-position: center;">
                                                 </div>
                                             </div>
                                         </div>
