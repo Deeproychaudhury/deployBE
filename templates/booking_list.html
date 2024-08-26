@@ -56,40 +56,42 @@
     </header>
     <div class="container my-5">
         <h2 class="text-center mb-4">Hall Bookings List</h2>
-        <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Booking ID</th>
-                    <th scope="col">Hall Number</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Amenity</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Check-In</th>
-                    <th scope="col">Check-Out</th>
-                    <th scope="col">Payment Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for booking in bookings %}
-                <tr>
-                    <td>{{ booking.booking_id }}</td>
-                    <td>{{ booking.Hall.number }}</td>
-                    <td>{{ booking.Hall.category }}</td>
-                    <td>{{ booking.ammenity }}</td>
-                    <td>{{ booking.customer.username }}</td>
-                    <td>{{ booking.checkin|date:"Y-m-d H:i" }}</td>
-                    <td>{{ booking.checkout|date:"Y-m-d H:i" }}</td>
-                    <td>
-                        {% if booking.payment_status %}
-                        <span class="badge bg-success">Paid</span>
-                        {% else %}
-                        <span class="badge bg-danger">Pending</span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Booking ID</th>
+                        <th scope="col">Hall Number</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Amenity</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Check-In</th>
+                        <th scope="col">Check-Out</th>
+                        <th scope="col">Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.booking_id }}</td>
+                        <td>{{ booking.Hall.number }}</td>
+                        <td>{{ booking.Hall.category }}</td>
+                        <td>{{ booking.ammenity }}</td>
+                        <td>{{ booking.customer.username }}</td>
+                        <td>{{ booking.checkin|date:"Y-m-d H:i" }}</td>
+                        <td>{{ booking.checkout|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            {% if booking.payment_status %}
+                            <span class="badge bg-success">Paid</span>
+                            {% else %}
+                            <span class="badge bg-danger">Pending</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
     <footer id="footer">
         <div class="footer py-5">
