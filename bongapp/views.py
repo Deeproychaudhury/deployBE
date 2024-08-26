@@ -138,6 +138,10 @@ def handlesignin(request):
         if not name or not email or not password or not title:
             messages.error(request, "All fields are required.")
             return redirect("/signin")
+        
+        if len(phone) < 10:
+            messages.error(request, "Phone number must be at least 10 digits long.")
+            return redirect("/signin")
 
         # Create the user
         try:
