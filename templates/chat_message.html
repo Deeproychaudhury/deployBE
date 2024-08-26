@@ -30,7 +30,7 @@
         {% elif message.is_image or message.resource_type == "image" %}
         <img src="{{message.file.url}}" alt="{{message.file.name}}" class="img-fluid me-2 mt-2" style="width: 15rem; height: auto;">
         {% else %}
-        <small><i class="fa-regular fa-file"></i> {{message.file.name}}</small>
+        <p><i class="fa-regular fa-file"></i>{{message.file.name}}</p>
 
         {% endif %}
         <a href="{{message.file.url}}" class="ms-auto mt-2" download><i class="fa-solid fa-download"></i></a>
@@ -72,7 +72,7 @@
         {% elif message.is_image or message.resource_type == "image" %}
         <img src="{{message.file.url}}" alt="{{message.file.name}}" class="img-fluid me-2 mt-2" style="width: 15rem; height: auto;">
         {% else %}
-        <small><i class="fa-solid fa-file"></i> {{message.file.name}}</small>
+        <p><i class="fa-solid fa-file"></i> {{message.file.name}}</p>
 
         {% endif %}
         <a href="{{message.file.url}}" class="ms-auto mt-2" download><i class="fa-solid fa-download"></i></a>
